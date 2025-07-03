@@ -1,17 +1,17 @@
-### App NexJS de Usuarios
+# App NexJS de Usuarios
 
-# Descripcion
+## Descripcion
 > Este es una proyecto hecho en NexJs en el que muestra una lista de usuarios donde puedes filtra y ver por usuario cada uno de ellos.
 
 ## Requerimientos del proyecto
 
-[x] Nodejs v22.16.0
-[x] npm 10.9.2
-[x] Agregar .env
+- [x] Nodejs v22.16.0
+- [x] npm 10.9.2
+- [x] Agregar .env
 
 Antes de levantar el proyecto utiliza `npm install` para instalar las dependencias.
 
-[!NOTE]
+>[!NOTE]
 > Agregar .env para que funcione el proyecto. ej: **URL=https://pokeapi.co/**
 
 ## Iniciar
