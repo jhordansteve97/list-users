@@ -8,7 +8,12 @@ import { User, UsersResponse } from "@/app/types";
 export const getUsers = async (page: string): Promise<UsersResponse | null> => {
   try {
     const url = process.env.URL;
-    const res = await fetch(`${url}/api/users?page=${page}`);
+    const res = await fetch(`${url}/api/users?page=${page}`, {
+      method: "GET",
+      headers: {
+        "x-api-key": "reqres-free-v1",
+      },
+    });
 
     if (!res.ok) {
       console.error(res.status);
@@ -31,7 +36,12 @@ export const getUsers = async (page: string): Promise<UsersResponse | null> => {
 export const getUser = async (id: string): Promise<User | null> => {
   try {
     const url = process.env.URL;
-    const res = await fetch(`${url}/api/users/${id}`);
+    const res = await fetch(`${url}/api/users/${id}`, {
+      method: "GET",
+      headers: {
+        "x-api-key": "reqres-free-v1",
+      },
+    });
 
     if (!res.ok) {
       console.error(res.status);

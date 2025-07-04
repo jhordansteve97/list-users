@@ -9,6 +9,14 @@ jest.mock("next/image", () => (props: any) => {
   return <img {...props} />;
 });
 
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    back: jest.fn(),
+    prefetch: jest.fn(),
+  }),
+}));
+
 // Mock errorImage
 jest.mock("../../../../public/errorImagen.png", () => "mocked-error-image.png");
 
