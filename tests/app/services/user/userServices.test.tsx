@@ -1,14 +1,22 @@
-import { getUsers, getUser } from "@/app/services/users/userServices";
 import type { User } from "@/app/types";
 import { mockUsers } from "tests/app/components/table/tableContainer.test";
 
 describe("User Service", () => {
   const OLD_ENV = process.env;
 
-  beforeEach(() => {
+  let getUsers: typeof import("@/app/services/users/userServices").getUsers;
+  let getUser: typeof import("@/app/services/users/userServices").getUser;
+
+  const baseUrl = "https://mockapi.com";
+
+  beforeEach(async () => {
     jest.resetModules();
-    process.env = { ...OLD_ENV, URL: "https://mockapi.com" };
+    process.env = { ...OLD_ENV, NEXT_PUBLIC_API_URL: baseUrl };
     jest.spyOn(console, "error").mockImplementation(() => {});
+
+    const services = await import("@/app/services/users/userServices");
+    getUsers = services.getUsers;
+    getUser = services.getUser;
   });
 
   afterEach(() => {
@@ -17,6 +25,7 @@ describe("User Service", () => {
   });
 
   describe("getUsers", () => {
+
     it("should return the users correctly when fetch is successful", async () => {
       global.fetch = jest.fn().mockResolvedValueOnce({
         ok: true,
@@ -24,9 +33,10 @@ describe("User Service", () => {
       } as Response);
 
       const result = await getUsers("1");
+
       expect(result).toEqual(mockUsers);
       expect(global.fetch).toHaveBeenCalledWith(
-        "https://mockapi.com/api/users?page=1",
+        `${baseUrl}/api/users?page=1`,
         {
           method: "GET",
           headers: {
@@ -47,9 +57,7 @@ describe("User Service", () => {
     });
 
     it("should return null if fetch throws an error", async () => {
-      global.fetch = jest
-        .fn()
-        .mockRejectedValueOnce(new Error("network error"));
+      global.fetch = jest.fn().mockRejectedValueOnce(new Error("network error"));
 
       const result = await getUsers("1");
       expect(result).toBeNull();
@@ -57,24 +65,25 @@ describe("User Service", () => {
   });
 
   describe("getUser", () => {
-    it("should return the user correctly when fetch is successful", async () => {
-      const mockUser: User = {
-        id: 1,
-        email: "george.bluth@reqres.in",
-        first_name: "George",
-        last_name: "Bluth",
-        avatar: "",
-      };
+    const mockUser: User = {
+      id: 1,
+      email: "george.bluth@reqres.in",
+      first_name: "George",
+      last_name: "Bluth",
+      avatar: "https://reqres.in/img/faces/1-image.jpg",
+    };
 
+    it("should return the user correctly when fetch is successful", async () => {
       global.fetch = jest.fn().mockResolvedValueOnce({
         ok: true,
         json: async () => ({ data: mockUser }),
       } as Response);
 
       const result = await getUser("1");
+
       expect(result).toEqual(mockUser);
       expect(global.fetch).toHaveBeenCalledWith(
-        "https://mockapi.com/api/users/1",
+        `${baseUrl}/api/users/1`,
         {
           method: "GET",
           headers: {
@@ -95,7 +104,7 @@ describe("User Service", () => {
     });
 
     it("should return null if fetch throws an error", async () => {
-      global.fetch = jest.fn().mockRejectedValueOnce(new Error("network fail"));
+      global.fetch = jest.fn().mockRejectedValueOnce(new Error("API failure"));
 
       const result = await getUser("1");
       expect(result).toBeNull();

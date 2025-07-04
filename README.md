@@ -12,7 +12,7 @@
 Antes de levantar el proyecto utiliza `npm install` para instalar las dependencias.
 
 >[!NOTE]
-> Agregar .env para que funcione el proyecto. ej: **URL=https://pokeapi.co/**
+> Agregar .env para que funcione el proyecto. ej: **NEXT_PUBLIC_API_URL=https://pokeapi.co/**
 
 ## Iniciar
 

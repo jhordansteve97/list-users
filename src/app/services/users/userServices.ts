@@ -1,4 +1,5 @@
 import { User, UsersResponse } from "@/app/types";
+const url = process.env.NEXT_PUBLIC_API_URL;
 
 /**
  * Consumes the API to obtain a list of users.
@@ -7,7 +8,6 @@ import { User, UsersResponse } from "@/app/types";
  */
 export const getUsers = async (page: string): Promise<UsersResponse | null> => {
   try {
-    const url = process.env.URL;
     const res = await fetch(`${url}/api/users?page=${page}`, {
       method: "GET",
       headers: {
@@ -35,7 +35,6 @@ export const getUsers = async (page: string): Promise<UsersResponse | null> => {
  */
 export const getUser = async (id: string): Promise<User | null> => {
   try {
-    const url = process.env.URL;
     const res = await fetch(`${url}/api/users/${id}`, {
       method: "GET",
       headers: {
